@@ -8,7 +8,7 @@ antennas in 5G and emerging 6G networks - a reproducible proof-of-concept protot
 > for 5G NR n78. **Ansys HFSS was not available and was not run; the optimised designs are surrogate predictions and have not been simulated.**
 >
 > Module 1 (image-based Vision Transformer) is a separate repository:
-> `https://github.com/<your-github-username>/module1-vit-antenna-image-classification`.
+> `https://github.com/rathiabeth/module1-vit-antenna-image-classification`.
 
 ![poster](poster/module2_poster.png)
 
@@ -45,7 +45,7 @@ Target definitions, the plausibility rule and the QC record are in [docs/DATA_CA
 ## Installation and reproduction
 
 ```bash
-git clone https://github.com/<your-github-username>/module2-numerical-surrogate-antenna-design.git
+git clone https://github.com/rathiabeth/module2-numerical-surrogate-antenna-design.git
 cd module2-numerical-surrogate-antenna-design
 python -m venv .venv
 source .venv/bin/activate            # Windows: .venv\Scripts\activate

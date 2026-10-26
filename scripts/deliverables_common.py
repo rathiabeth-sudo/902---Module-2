@@ -27,8 +27,8 @@ MODULE = "Module 2 - Numerical-Text Module, Multimodal Fusion and NSGA-II Optimi
 TITLE = "Numerical-Text Surrogate Modelling and Multi-Objective Optimisation of Compact Patch Antennas"
 SUBTITLE = "Module 2 of the Applied Vision Transformer Framework for Hybrid-Slotted DGS Antennas in 5G and Emerging 6G Networks - Proof-of-Concept Prototype"
 # Set these once after creating the GitHub repositories; every deliverable reads them from here.
-REPO_URL = "https://github.com/<your-github-username>/module2-numerical-surrogate-antenna-design"
-COMPANION_URL = "https://github.com/<your-github-username>/module1-vit-antenna-image-classification"
+REPO_URL = "https://github.com/rathiabeth/module2-numerical-surrogate-antenna-design"
+COMPANION_URL = "https://github.com/rathiabeth/module1-vit-antenna-image-classification"
 
 PATCH_TARGETS = {"f_res_ghz": ("First matched resonance", "GHz"), "s11_min_db": ("Minimum S11", "dB"),
                  "s11_at_res_db": ("S11 at resonance", "dB"), "bw10_mhz": ("−10 dB bandwidth", "MHz")}
@@ -74,3 +74,22 @@ def criteria(R) -> list[tuple[str, str, str]]:
                 f"{'Met' if ok else 'Not met'}: {opt['n_pareto']} proposals, median distance to nearest simulated design "
                 f"{opt['median_nearest_distance_std']:.2f} SD (surrogate only, not simulated)"))
     return out
+
+
+BRANCH = "main"
+
+
+def gh(path: str, folder: bool = False) -> str:
+    """Clickable GitHub link to a file (blob) or folder (tree) in this repository."""
+    return f"{REPO_URL}/{'tree' if folder else 'blob'}/{BRANCH}/{path}"
+
+
+def link(path: str, folder: bool = False, label: str | None = None) -> str:
+    """Report markup [label](url) that report_render turns into a hyperlink."""
+    return f"[{label or path}]({gh(path, folder)})"
+
+
+def test_summary() -> str:
+    """Last line of the stored pytest output, e.g. '18 passed in 4.18s'."""
+    lines = [l.strip() for l in (ROOT / "results" / "test_report.txt").read_text(encoding="utf-8").splitlines() if l.strip()]
+    return lines[-1] if lines else "not run"

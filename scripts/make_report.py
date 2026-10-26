@@ -9,8 +9,46 @@ import re
 import pandas as pd
 
 from deliverables_common import (COMPANION_URL, FIG, MEND_TARGETS, PATCH_TARGETS, REPO_URL, ROOT, SUBTITLE, TITLE, criteria,
-                                 load)
+                                 link, load, test_summary)
 from report_render import to_docx, to_tex
+
+
+def availability(C) -> list:
+    """Section with clickable links to the data, scripts, tests and outputs in the GitHub repository."""
+    L = link
+    rows = [
+        ["**Data**", "Patch dataset source (2,051 openEMS designs, MIT)", "[Hugging Face, rev. 4be72a2](https://huggingface.co/datasets/becklabash/rectangular-patch-antenna-freq-response)"],
+        ["", "Mendeley Antenna Parameters Dataset v2 (CC BY 4.0)", "[Mendeley Data 10.17632/3gxr2vvd9n.2](https://doi.org/10.17632/3gxr2vvd9n.2)"],
+        ["", "Processed patch table (parameters, S11 targets, labels, split)", L("data/processed/patch_designs.csv")],
+        ["", "Cleaned Mendeley table with plausibility flag", L("data/processed/mendeley_clean.csv")],
+        ["", "Locked split manifests shared with Module 1", L("data/splits", folder=True)],
+        ["", "Module 1 ViT embeddings and SHA-256 provenance", L("data/external/module1_vit_embeddings", folder=True)],
+        ["", "Data dictionary and preprocessing log", L("data/data_dictionary.csv") + "; " + L("data/processed/preprocessing_log.json")],
+        ["", "Configuration (seed, thresholds, surrogate, fusion, NSGA-II)", L("configs/default.yaml")],
+        ["**Scripts**", "Download and preprocessing (targets, cleaning, split check)", L("src/download_data.py") + "; " + L("src/preprocessing.py")],
+        ["", "Surrogate regression and engineering summaries", L("src/numerical_model.py")],
+        ["", "Multimodal fusion and NSGA-II optimisation", L("src/fusion_optimization.py")],
+        ["", "Metrics helpers", L("src/metrics.py")],
+        ["", "Full pipeline", L("scripts/run_all.ps1") + "; " + L("scripts/run_all.sh")],
+        ["", "Report, slides, poster and diagram generators", L("scripts", folder=True)],
+        ["**Tests**", "Target extraction, labels, split, cleaning rule, embeddings, NSGA-II constraints", L("tests/test_module2.py")],
+        ["", f"Stored pytest output ({test_summary()})", L("results/test_report.txt")],
+        ["**Outputs**", "Surrogate metrics for every target, model and split", L("results/metrics/numerical_module.json")],
+        ["", "Surrogate test predictions per design", L("results/predictions/patch_surrogate_test.csv")],
+        ["", "Fusion results (numeric-only, image-only, fused)", L("results/metrics/fusion.json")],
+        ["", "NSGA-II Pareto proposals (NOT simulated) and summary", L("results/metrics/nsga2_pareto_n78.csv") + "; " + L("results/metrics/fusion_optimisation.json")],
+        ["", "Generated engineering summaries (text)", L("results/reports/engineering_summaries.md")],
+        ["", "Mendeley cleaning record", L("results/metrics/mendeley_cleaning.json")],
+        ["", "All figures used in this report", L("results/figures", folder=True)],
+        ["", "Report, slides and poster", L("reports", folder=True) + "; " + L("presentations", folder=True) + "; " + L("poster", folder=True)],
+    ]
+    return [
+        ("h1", "Data, Code and Output Availability"),
+        ("p", f"All data derivatives, code, tests and outputs of Module 2 are public in the GitHub repository {REPO_URL}. "
+              "Each entry below links directly to the file or folder; raw third-party files are linked at their source because they "
+              "are re-downloaded with checksums rather than redistributed. Module 1 is at " + COMPANION_URL + "."),
+        ("table", C.tab("Links to the data, scripts, tests and outputs of Module 2 (branch main)."), ["Category", "Content", "Link"], rows),
+    ]
 
 
 class Counter:
@@ -92,15 +130,16 @@ def build(R) -> list:
             "propose credible compact designs for a 5G band** - while keeping every generated number and sentence traceable to a "
             "model output or a simulated reference."))
     a(("table", C.tab("Implementation status of Module 2."), ["Component", "Status", "Evidence in repository"], [
-        ["Dataset verification, cleaning and plausibility rules", "Completed and executed", "src/preprocessing.py, docs/DATA_CARD.md"],
-        ["S11 target extraction and locked split (shared with Module 1)", "Completed and executed", "src/preprocessing.py, data/splits/"],
-        ["Surrogate regression (ridge, gradient boosting, random forest)", "Completed and executed", "src/numerical_model.py"],
-        ["Rule-based engineering summaries (text)", "Completed and executed", "results/reports/engineering_summaries.md"],
-        ["Multimodal fusion with Module 1 embeddings", "Completed and executed", "src/fusion_optimization.py, results/metrics/fusion.json"],
-        ["NSGA-II optimisation for NR n78", "Executed on surrogates only; proposals not simulated", "results/metrics/nsga2_pareto_n78.csv"],
+        ["Dataset verification, cleaning and plausibility rules", "Completed and executed", link("src/preprocessing.py") + ", " + link("docs/DATA_CARD.md")],
+        ["S11 target extraction and locked split (shared with Module 1)", "Completed and executed", link("src/preprocessing.py") + ", " + link("data/splits", folder=True)],
+        ["Surrogate regression (ridge, gradient boosting, random forest)", "Completed and executed", link("src/numerical_model.py")],
+        ["Rule-based engineering summaries (text)", "Completed and executed", link("results/reports/engineering_summaries.md")],
+        ["Multimodal fusion with Module 1 embeddings", "Completed and executed", link("src/fusion_optimization.py") + ", " + link("results/metrics/fusion.json")],
+        ["NSGA-II optimisation for NR n78", "Executed on surrogates only; proposals not simulated", link("results/metrics/nsga2_pareto_n78.csv")],
+        ["Automated tests", "Completed and executed", link("tests/test_module2.py") + ", " + link("results/test_report.txt")],
         ["HFSS hybrid-slotted DGS parameter sweep", "Proposed (HFSS unavailable)", "Section 11"],
         ["Full-wave re-simulation, fabrication and measurement", "Proposed", "Section 11"],
-        ["Block diagram (Figure 1)", "Illustrative", "results/figures/module2_architecture.png"],
+        ["Block diagram (Figure 1)", "Illustrative", link("results/figures/module2_architecture.png")],
     ]))
     a(("figure", FIG / "module2_architecture.png", C.fig("Module 2 block diagram. Solid boxes were implemented and executed; dashed orange boxes are proposed work that requires Ansys HFSS. The example sentence is a real generated summary."), 6.3))
 
@@ -181,8 +220,9 @@ def build(R) -> list:
                    "Mendeley evaluation uses 5-fold GroupKFold by design, so all 16 frequencies of one design are always in the same fold.",
                    "Standardisation statistics (ridge, MLP) are fitted on training data only; tree models need no scaling.",
                    "The test split is scored once, after model selection on validation MAE (regression) or validation macro-F1 (fusion)."]))
-    a(("p", "The data dictionary is in Appendix A; all counts are logged in data/processed/preprocessing_log.json and "
-            "results/metrics/mendeley_cleaning.json, and the rules are enforced by automated tests (Section 10)."))
+    a(("p", f"The data dictionary is in Appendix A and online at {link('data/data_dictionary.csv')}; all counts are logged in "
+            f"{link('data/processed/preprocessing_log.json')} and {link('results/metrics/mendeley_cleaning.json')}, and the rules "
+            "are enforced by automated tests (Section 10)."))
 
     # ------------------------------------------------------------------ 5 Model
     a(("h1", "5. Proposed Model: Numerical-Text Surrogate, Fusion and Optimisation"))
@@ -387,6 +427,9 @@ def build(R) -> list:
             "that a surrogate is only as good as its coverage: the DGS sweep should be space-filling, the surrogate should report "
             "its uncertainty, and every optimised design should be treated as a hypothesis for full-wave verification."))
 
+    # ------------------------------------------------------------------ Availability
+    B.extend(availability(C))
+
     # ------------------------------------------------------------------ References
     a(("h1", "References"))
     a(("numbered", REFERENCES))
@@ -418,8 +461,9 @@ def build(R) -> list:
                "python -m src.fusion_optimization    # fusion with Module 1 embeddings + NSGA-II\n"
                "pytest -q\n"
                "python scripts/make_deliverables.py"))
-    a(("p", f"Repository: {REPO_URL}. The pytest output is stored in results/test_report.txt; environment and determinism notes are "
-            "in docs/REPRODUCIBILITY.md."))
+    a(("p", f"Repository: {REPO_URL}. The pytest output ({test_summary()}) is stored in {link('results/test_report.txt')}; "
+            f"environment and determinism notes are in {link('docs/REPRODUCIBILITY.md')}. All links are listed in the section "
+            "Data, Code and Output Availability."))
     return B
 
 
