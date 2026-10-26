@@ -1,0 +1,58 @@
+# Module 2 - Numerical-Text surrogate, multimodal fusion and NSGA-II optimisation.
+# Central configuration: every script in src/ reads this file.
+seed: 42
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  splits: data/splits
+  results: results
+  checkpoints: results/checkpoints   # git-ignored (fitted surrogate models)
+
+datasets:
+  patch:
+    # Hugging Face: becklabash/rectangular-patch-antenna-freq-response (MIT licence)
+    repo_id: becklabash/rectangular-patch-antenna-freq-response
+    revision: 4be72a22e55fbf46966c59a5d6b3ec95c836379b
+    file: data/train-00000-of-00001.parquet
+  mendeley:
+    # Mendeley Data: Antenna Parameters Dataset, DOI 10.17632/3gxr2vvd9n.2 (CC-BY-4.0)
+    dataset_id: 3gxr2vvd9n
+    file_url: https://data.mendeley.com/public-files/datasets/3gxr2vvd9n/files/7af017f6-90cd-4da5-a11c-3716378ac3d9/file_downloaded
+    sha256: 7c15f2a387d8cc573150f0c361adcaaa74b69d46d30bc63c5a20b23a07dc002a
+
+labels:
+  # Matching thresholds. -10 dB (VSWR ~1.92) is the conventional impedance-bandwidth criterion.
+  # -20 dB as the "high" boundary is a project ASSUMPTION that requires engineering confirmation.
+  s11_matched_db: -10.0
+  s11_high_db: -20.0
+  # Band edges (GHz) from 3GPP TS 38.101-1 (FR1 upper edge 7.125 GHz; n77 3.3-4.2, n79 4.4-5.0).
+  band_edges_ghz: [5.0, 7.125]
+  band_names: ["FR1_mid_below5GHz", "FR1_upper_5to7GHz", "FR3_6Gcandidate_above7GHz"]
+  perf_names: ["Poor", "Acceptable", "High"]
+
+split:
+  # Identical to Module 1: the same locked design-level split (manifests in data/splits).
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  ood_wl_ratio_min: 1.95   # widest patches (W/L > 1.95) are an out-of-distribution hold-out
+
+surrogate:
+  random_forest_trees: 400
+  hist_gbr_iterations: 500
+  hist_gbr_learning_rate: 0.05
+  ridge_alpha: 1.0
+  mendeley_folds: 5          # GroupKFold by design (all 16 frequencies of a design stay together)
+
+fusion:
+  # 384-d CLS embeddings exported by Module 1 (pre-registered fine-tuned ViT-S/16, seed 42).
+  embedding_run: vit_finetune_patch_perf_class_s42
+  embedding_dir: data/external/module1_vit_embeddings
+  hidden_grid: [[64], [128, 64]]
+  alpha_grid: [1.0e-4, 1.0e-3, 1.0e-2]
+
+nsga2:
+  band_ghz: [3.3, 3.8]       # 5G NR n78
+  pop_size: 100
+  generations: 80

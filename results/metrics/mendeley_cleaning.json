@@ -1,0 +1,27 @@
+{
+  "rows_raw": 1648,
+  "total_eff_non_numeric": 1,
+  "unique_designs": 103,
+  "frequencies_ghz": [
+    1,
+    2,
+    4,
+    6,
+    10,
+    12,
+    26,
+    28,
+    30,
+    36,
+    37,
+    38,
+    40,
+    42,
+    46,
+    50
+  ],
+  "implausible_rows_flagged": 245,
+  "rule": "flag if Rad_eff>1 or Total_eff>1 or Directivity>20 dBi or Gain>Directivity (physically impossible)",
+  "duplicate_rows": 0,
+  "plausible_rows": 1403
+}

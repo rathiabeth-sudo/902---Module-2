@@ -1,0 +1,28 @@
+dataset,variable,type,unit,description
+patch,design_id,string,-,Unique design key (P + source id)
+patch,length_mm,float,mm,Input: patch length L (resonant dimension)
+patch,width_mm,float,mm,Input: patch width W
+patch,feed_y_mm,float,mm,Input: coaxial feed offset from patch centre along L (negative toward edge)
+patch,wl_ratio,float,-,Input: W/L aspect ratio
+patch,feed_ratio,float,-,"Input: feed offset normalised by L/2 (0 centre, 1 edge)"
+patch,area_mm2,float,mm^2,Patch area W x L (optimisation objective)
+patch,f_res_ghz,float,GHz,"Target: first matched resonance, lowest-frequency local S11 minimum below -10 dB (global minimum if never matched)"
+patch,f_deepest_ghz,float,GHz,Frequency of the deepest S11 dip in 1-10 GHz (often a higher-order mode)
+patch,s11_min_db,float,dB,Target: global minimum simulated S11 over 1-10 GHz (openEMS FDTD)
+patch,s11_at_res_db,float,dB,Target: simulated S11 at f_res
+patch,bw10_mhz,float,MHz,Target: contiguous -10 dB bandwidth around f_res (0 if unmatched)
+patch,fbw10_pct,float,%,Fractional -10 dB bandwidth
+patch,perf_class,int,0/1/2,"Poor (S11min > -10 dB), Acceptable (-20 < S11min <= -10), High (S11min <= -20 dB); fusion target"
+patch,band_class,int,0/1/2,f_res < 5 GHz | 5-7.125 GHz | >= 7.125 GHz (3GPP FR1 / FR3 boundary)
+patch,split,category,train/val/test/ood,Locked design-level allocation shared with Module 1 (seed 42)
+mendeley,design_id,int,-,Design index (unique combination of the 10 geometry variables)
+mendeley,"Sub_W, Sub_L, Sub_H",float,mm,"Input: substrate width, length, height"
+mendeley,"Patch_W, Patch_L",float,mm,Input: patch width and length
+mendeley,Feed_W,float,mm,Input: feed-line width
+mendeley,"Slot1_W, Slot1_L, Slot2_W, Slot2_L",float,mm,Input: dimensions of the two slots
+mendeley,Freq_GHz,float,GHz,"Input: frequency at which outputs were extracted (16 values, 1-50 GHz)"
+mendeley,S11_dB,float,dB,Target: simulated reflection coefficient
+mendeley,Gain,float,dBi,Target: simulated gain (plausible rows only)
+mendeley,Rad_eff,float,ratio,Target: radiation efficiency (plausible rows only)
+mendeley,"Directivity, Total_eff, VSWR",float,dBi / ratio / -,Other simulated outputs (used for plausibility checks only)
+mendeley,plausible,bool,-,"False if Rad_eff>1, Total_eff>1, Directivity>20 dBi or Gain>Directivity"

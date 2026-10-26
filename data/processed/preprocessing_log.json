@@ -1,0 +1,81 @@
+{
+  "patch_raw_rows": 2051,
+  "patch_excluded": [],
+  "patch_positive_s11_designs": 1170,
+  "patch_duplicate_parameter_rows": 0,
+  "patch_missing_values": 0,
+  "patch_split_matches_locked_manifests": true,
+  "patch_split_counts": {
+    "train": 1220,
+    "ood": 307,
+    "test": 262,
+    "val": 262
+  },
+  "patch_perf_by_split": {
+    "0": {
+      "ood": 80,
+      "test": 28,
+      "train": 128,
+      "val": 27
+    },
+    "1": {
+      "ood": 112,
+      "test": 57,
+      "train": 269,
+      "val": 58
+    },
+    "2": {
+      "ood": 115,
+      "test": 177,
+      "train": 823,
+      "val": 177
+    }
+  },
+  "patch_band_by_split": {
+    "0": {
+      "ood": 116,
+      "test": 168,
+      "train": 761,
+      "val": 165
+    },
+    "1": {
+      "ood": 61,
+      "test": 54,
+      "train": 246,
+      "val": 51
+    },
+    "2": {
+      "ood": 130,
+      "test": 40,
+      "train": 213,
+      "val": 46
+    }
+  },
+  "mendeley": {
+    "rows_raw": 1648,
+    "total_eff_non_numeric": 1,
+    "unique_designs": 103,
+    "frequencies_ghz": [
+      1,
+      2,
+      4,
+      6,
+      10,
+      12,
+      26,
+      28,
+      30,
+      36,
+      37,
+      38,
+      40,
+      42,
+      46,
+      50
+    ],
+    "implausible_rows_flagged": 245,
+    "rule": "flag if Rad_eff>1 or Total_eff>1 or Directivity>20 dBi or Gain>Directivity (physically impossible)",
+    "duplicate_rows": 0,
+    "plausible_rows": 1403
+  }
+}
