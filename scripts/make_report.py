@@ -39,7 +39,7 @@ def availability(C) -> list:
         ["", "NSGA-II Pareto proposals (NOT simulated) and summary", L("results/metrics/nsga2_pareto_n78.csv") + "; " + L("results/metrics/fusion_optimisation.json")],
         ["", "Generated engineering summaries (text)", L("results/reports/engineering_summaries.md")],
         ["", "Mendeley cleaning record", L("results/metrics/mendeley_cleaning.json")],
-        ["", "All figures used in this report", L("results/figures", folder=True)],
+        ["", "All figures produced by the project", L("results/figures", folder=True)],
         ["", "Report, slides and poster", L("reports", folder=True) + "; " + L("presentations", folder=True) + "; " + L("poster", folder=True)],
     ]
     return [
@@ -96,7 +96,7 @@ def build(R) -> list:
 
     # ------------------------------------------------------------------ Abstract
     a(("h1", "Abstract"))
-    a(("p", "This report documents the implementation and evaluation of Module 2 of a two-module applied-AI framework for "
+    a(("p", "This project implements and evaluates Module 2 of a two-module applied-AI framework for "
             "hybrid-slotted defected ground structure (DGS) compact patch antennas. Module 2 is the numerical-text branch: it "
             "predicts electromagnetic performance from antenna parameters, turns the predictions into short engineering summaries, "
             "fuses numerical features with the image embeddings produced by Module 1, and uses the surrogates inside an NSGA-II "
@@ -120,8 +120,8 @@ def build(R) -> list:
     a(("p", "Compact printed patch antennas for 5G and emerging 6G devices are designed by iterating full-wave simulations. Slots "
             "and defected ground structures add design freedom but also make the response sensitive to small geometric changes [4], "
             "so a parameter sweep in Ansys HFSS can take days. The overall research framework addresses this with two modules. "
-            "Module 1, documented in a separate report and repository "
-            f"({COMPANION_URL}), is a Vision Transformer [1] that classifies standardised antenna images. Module 2, documented here, "
+            "Module 1, a companion project in its own repository "
+            f"({COMPANION_URL}), is a Vision Transformer [1] that classifies standardised antenna images. Module 2, the subject of this project, "
             "works on numbers: it learns a fast surrogate of the simulator from antenna parameters, explains each prediction in a "
             "short engineering summary, combines numerical and image features, and searches the design space for promising "
             "candidates. The surrogate is a screening tool that reduces the number of full-wave runs, not a replacement for them."))
@@ -490,13 +490,12 @@ META = {
     "title": TITLE,
     "subtitle": SUBTITLE,
     "doc_type": "Module 2: Numerical-Text Surrogate, Multimodal Fusion and NSGA-II Multi-Objective Optimisation",
-    "fields": [("Student name", "[to be completed by student]"), ("Student ID", "[to be completed by student]"),
-               ("Programme / Module", "[to be completed by student]"), ("Institution", "[to be completed by student]"),
-               ("Submission date", "[to be completed by student]"), ("Report generated", "26 October 2026"),
+    "fields": [("Student name", "Ms. Rathi Devadhas"), ("Student ID", "1737089"),
+               ("Programme", "Master of Applied Artificial Intelligence"),
+               ("Submission date", "26 October 2026"),
                ("Code repository", REPO_URL)],
-    "note": "Bracketed fields are deliberate placeholders for personal details that were not provided. All results are from executed "
-            "experiments on public simulation data. Ansys HFSS was not available and was not run.",
-    "author": "",
+    "note": "All results are from executed experiments on public simulation data. Ansys HFSS was not available and was not run.",
+    "author": "Ms. Rathi Devadhas",
 }
 
 
