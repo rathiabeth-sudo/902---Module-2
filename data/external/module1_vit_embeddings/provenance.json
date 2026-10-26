@@ -1,5 +1,5 @@
 {
-  "source": "Module 1 - Image-Based Vision Transformer (separate repository: module1-vit-antenna-image-classification)",
+  "source": "Module 1 - Image-Based Vision Transformer (separate repository: 901---module-1)",
   "run": "vit_finetune_patch_perf_class_s42",
   "model": "timm vit_small_patch16_224.augreg_in21k_ft_in1k, pre-registered partial fine-tune (last 4 blocks), seed 42",
   "content": "384-d CLS-token embedding per patch design, rows in the order of data/processed/patch_designs.csv within each split",

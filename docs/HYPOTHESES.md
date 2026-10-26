@@ -1,6 +1,6 @@
 # Pre-registered research questions and hypotheses
 
-> **Module 2 repository note.** This is the original pre-registration of the combined prototype, committed before any fine-tuned or fusion result existed, kept unchanged. Module 2 evaluates **H6** (fusion). H1-H5 concern the Vision Transformer and are evaluated in the companion Module 1 repository (`module1-vit-antenna-image-classification`). The regression and optimisation criteria E1-E3 in the Module 2 report are evaluation criteria from the analysis plan and were not separately pre-registered.
+> **Module 2 repository note.** This is the original pre-registration of the combined prototype, committed before any fine-tuned or fusion result existed, kept unchanged. Module 2 evaluates **H6** (fusion). H1-H5 concern the Vision Transformer and are evaluated in the companion Module 1 repository (`901---module-1`). The regression and optimisation criteria E1-E3 in the Module 2 report are evaluation criteria from the analysis plan and were not separately pre-registered.
 
 Committed to Git **before** any fine-tuned ViT, CNN, fusion or explainability result existed
 (see the commit timestamp of this file). One result had already been printed at that point: the frozen

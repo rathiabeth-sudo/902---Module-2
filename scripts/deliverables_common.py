@@ -27,8 +27,8 @@ MODULE = "Module 2 - Numerical-Text Module, Multimodal Fusion and NSGA-II Optimi
 TITLE = "Numerical-Text Surrogate Modelling and Multi-Objective Optimisation of Compact Patch Antennas"
 SUBTITLE = "Module 2 of the Applied Vision Transformer Framework for Hybrid-Slotted DGS Antennas in 5G and Emerging 6G Networks - Proof-of-Concept Prototype"
 # Set these once after creating the GitHub repositories; every deliverable reads them from here.
-REPO_URL = "https://github.com/rathiabeth/module2-numerical-surrogate-antenna-design"
-COMPANION_URL = "https://github.com/rathiabeth/module1-vit-antenna-image-classification"
+REPO_URL = "https://github.com/rathiabeth-sudo/902---Module-2"
+COMPANION_URL = "https://github.com/rathiabeth-sudo/901---module-1"
 
 PATCH_TARGETS = {"f_res_ghz": ("First matched resonance", "GHz"), "s11_min_db": ("Minimum S11", "dB"),
                  "s11_at_res_db": ("S11 at resonance", "dB"), "bw10_mhz": ("−10 dB bandwidth", "MHz")}
