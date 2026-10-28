@@ -9,13 +9,17 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import make_antenna_figures  # noqa: E402
 import make_architecture  # noqa: E402
 import make_poster  # noqa: E402
 import make_report  # noqa: E402
+import make_extended_slides  # noqa: E402
 import make_slides  # noqa: E402
 
 if __name__ == "__main__":
+    make_antenna_figures.main()
     make_architecture.main()
     make_poster.main()
     make_slides.main()
+    make_extended_slides.main()
     make_report.main()

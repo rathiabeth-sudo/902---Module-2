@@ -1,0 +1,8 @@
+{
+  "hardware": "Intel64 Family 6 Model 142 Stepping 12, GenuineIntel (Windows 11)",
+  "rf_fit_seconds_one_target": 0.7906088000163436,
+  "n_test_designs": 262,
+  "batch_predict_seconds_all_targets": 0.710514200036414,
+  "batch_ms_per_design_all_targets": 2.7118862596809694,
+  "single_design_latency_ms_all_targets": 276.9239000044763
+}

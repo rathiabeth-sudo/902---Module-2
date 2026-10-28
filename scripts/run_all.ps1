@@ -2,7 +2,7 @@
 $ErrorActionPreference = "Stop"
 $py = ".\.venv\Scripts\python.exe"
 if (-not (Test-Path $py)) { $py = "python" }
-foreach ($a in @(@("-m", "src.download_data"), @("-m", "src.preprocessing"), @("-m", "src.numerical_model"), @("-m", "src.fusion_optimization"))) {
+foreach ($a in @(@("-m", "src.download_data"), @("-m", "src.preprocessing"), @("-m", "src.numerical_model"), @("-m", "src.fusion_optimization"), @("-m", "src.timing"))) {
     Write-Host ">>> $a"
     & $py @a
     if ($LASTEXITCODE -ne 0) { throw "failed: $a" }

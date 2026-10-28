@@ -55,6 +55,7 @@ python -m src.download_data          # ~10 MB, SHA-256 checked
 python -m src.preprocessing          # targets, cleaning, split check against data/splits
 python -m src.numerical_model        # surrogates + engineering summaries
 python -m src.fusion_optimization    # fusion + NSGA-II
+python -m src.timing                 # measured prediction speed (used in the extended deck)
 pytest -q                            # 10 tests
 python scripts/make_deliverables.py  # block diagram, poster, slides, Word + LaTeX report
 ```
@@ -95,6 +96,7 @@ Test status: `pytest` reports 10 passed (`results/test_report.txt`).
 |---|---|
 | [reports/module2_report.docx](reports/module2_report.docx) (+ `.pdf`, `.tex`) | Formal methodology and implementation report |
 | [presentations/module2_presentation.pptx](presentations/module2_presentation.pptx) | Five-slide deck with presenter notes |
+| [presentations/module2_extended_presentation.pptx](presentations/module2_extended_presentation.pptx) | 21-slide extended deck: antenna basics, AI pipeline stages, features, all outputs; note bubbles + speaker notes |
 | [poster/module2_poster.png](poster/module2_poster.png) (+ `.pdf`) | 16:9 research poster, 300 dpi |
 | [results/figures/module2_architecture.png](results/figures/module2_architecture.png) | Module 2 block diagram |
 | [docs/](docs/) | Data card, model card, reproducibility, limitations, dataset survey, hypotheses |
