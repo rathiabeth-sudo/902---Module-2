@@ -14,7 +14,7 @@ from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Emu, Inches, Pt
 
-from deliverables_common import (COMPANION_URL, FIG, M, MEND_TARGETS, PATCH_TARGETS, REPO_URL, ROOT, criteria, load,
+from deliverables_common import (COMPANION_URL, FIG, M, MEND_TARGETS, PATCH_TARGETS, REPO_URL, ROOT, TITLE, criteria, load,
                                  test_summary)
 from make_report import summaries
 from make_slides import ACCENT, BLUE, EDGE, GREY, ICE, NAVY, SOFT, WHITE, background, bullets, card, text
@@ -51,10 +51,10 @@ class Deck:
         return s
 
 
-def note(slide, paras, title="Note", y=1.55, h=None, notes_text=None):
+def note(slide, paras, y=1.55, h=None, notes_text=None):
     """Speech-bubble note on the right of the slide (tail points at the content); also copied to speaker notes."""
     if h is None:  # size the bubble to its text (about 36 characters per line at 13 pt)
-        lines = 1 + sum(-(-len(t) // 33) for t in paras)
+        lines = sum(-(-len(t) // 33) for t in paras)
         h = min(5.3, max(1.8, 0.6 + 0.245 * lines + 0.09 * len(paras)))
     b = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGULAR_CALLOUT, Inches(9.45), Inches(y), Inches(3.3), Inches(h))
     b.adjustments[0] = -0.60   # tail tip x (relative to the shape centre, as a fraction of the width)
@@ -64,19 +64,16 @@ def note(slide, paras, title="Note", y=1.55, h=None, notes_text=None):
     b.line.color.rgb = NOTE_EDGE
     b.line.width = Pt(1.25)
     b.shadow.inherit = False
-    b.name = "Note bubble"
+    b.name = "Explanation bubble"
     tf = b.text_frame
     tf.word_wrap = True
     tf.vertical_anchor = MSO_ANCHOR.TOP
     tf.margin_left = tf.margin_right = Inches(0.18)
     tf.margin_top = Inches(0.14)
-    p = tf.paragraphs[0]
-    r = p.add_run()
-    r.text = title
-    r.font.size, r.font.bold, r.font.color.rgb, r.font.name = Pt(14), True, RGBColor(0x8A, 0x5A, 0x00), FONT
-    for t in paras:
-        q = tf.add_paragraph()
-        q.space_before = Pt(5)
+    for i, t in enumerate(paras):   # no heading inside the bubble, just the explanation
+        q = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+        q.space_before = Pt(0 if i == 0 else 5)
+        q.alignment = PP_ALIGN.LEFT
         rr = q.add_run()
         rr.text = t
         rr.font.size, rr.font.color.rgb, rr.font.name = Pt(13), NAVY, FONT
@@ -161,18 +158,19 @@ def main():
     I = Inches
 
     # ================================================================ 1 title (dark)
-    s = D.slide("Fast, explainable antenna screening with AI", dark=True)
-    text(s, I(0.6), I(1.5), I(11.8), I(1.0),
-         "Module 2 - Numerical-Text Surrogate Modelling, Multimodal Fusion and NSGA-II Optimisation of Compact Patch Antennas "
-         "for 5G and Emerging 6G Networks (extended presentation)", size=18, color=SOFT)
+    s = D.slide("", dark=True)
+    text(s, I(0.6), I(0.7), I(12.1), I(1.3), TITLE, size=32, color=WHITE, bold=True)   # paper title
+    text(s, I(0.6), I(2.05), I(12.1), I(0.9),
+         "Module 2 of the Applied Vision Transformer Framework for Hybrid-Slotted DGS Compact Patch Antenna Design: "
+         "HFSS-Driven Multi-Objective Optimization for 5G and Emerging 6G Networks", size=17, color=SOFT)
     for i, (big, lab) in enumerate([("2,051", "simulated patch designs"), ("103 × 16", "slotted designs × frequencies"),
                                     (f"R² {sel('f_res_ghz')['R2']:.2f}", "resonance prediction (test)"),
                                     (str(opt["n_pareto"]), "AI design proposals for 5G n78")]):
         x = I(0.6 + i * 3.1)
-        card(s, x, I(2.75), I(2.85), I(1.55), fill=DARKCARD, line=None)
-        text(s, x + I(0.2), I(2.85), I(2.6), I(0.7), big, size=34, color=WHITE, bold=True)
-        text(s, x + I(0.2), I(3.6), I(2.6), I(0.6), lab, size=14, color=SOFT)
-    text(s, I(0.6), I(4.75), I(11.8), I(1.2), [[("Ms. Rathi Devadhas", {"bold": True, "size": 20, "color": WHITE})],
+        card(s, x, I(3.1), I(2.85), I(1.45), fill=DARKCARD, line=None)
+        text(s, x + I(0.2), I(3.17), I(2.6), I(0.7), big, size=32, color=WHITE, bold=True)
+        text(s, x + I(0.2), I(3.88), I(2.6), I(0.6), lab, size=14, color=SOFT)
+    text(s, I(0.6), I(4.9), I(11.8), I(1.2), [[("Ms. Rathi Devadhas", {"bold": True, "size": 20, "color": WHITE})],
                                               [("Student ID 1737089  ·  Master of Applied Artificial Intelligence  ·  28 October 2026", {"size": 15, "color": SOFT})],
                                               [(REPO_URL, {"size": 13, "color": SOFT})]], size=15)
     s.notes_slide.notes_text_frame.text = (
@@ -203,7 +201,7 @@ def main():
         text(s, x + I(1.15), y + I(0.2), I(2.85), I(0.45), t, size=17, bold=True)
         text(s, x + I(1.15), y + I(0.65), I(2.85), I(0.7), d, size=13, color=GREY)
     note(s, ["The deck moves from physics to data to AI to engineering value.",
-             "Yellow bubbles like this one carry the presenter's explanation for each slide; the same text is in the speaker notes.",
+             "Yellow bubbles like this one explain each slide in plain words.",
              "Every number shown later is read from the executed results, not typed by hand."])
 
     # ================================================================ 3 antenna definitions
