@@ -7,7 +7,7 @@ from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Emu, Inches, Pt
 
-from deliverables_common import FIG, MEND_TARGETS, PATCH_TARGETS, REPO_URL, ROOT, criteria, load
+from deliverables_common import DEMO_URL, FIG, MEND_TARGETS, PATCH_TARGETS, REPO_URL, ROOT, criteria, load
 
 NAVY = RGBColor(0x0B, 0x2A, 0x4A)
 BLUE = RGBColor(0x2F, 0x6F, 0xAE)
@@ -42,6 +42,8 @@ def text(slide, x, y, w, h, runs, size=16, color=NAVY, bold=False, align=PP_ALIG
             r.font.size = Pt(o.get("size", size))
             r.font.bold = o.get("bold", bold)
             r.font.color.rgb = o.get("color", color)
+            if o.get("link"):
+                r.hyperlink.address = o["link"]
     return tb
 
 
@@ -63,6 +65,8 @@ def bullets(slide, x, y, w, h, items, size=15, color=NAVY, space=6):
             r.font.size = Pt(o.get("size", size))
             r.font.bold = o.get("bold", False)
             r.font.color.rgb = o.get("color", color)
+            if o.get("link"):
+                r.hyperlink.address = o["link"]
     return tb
 
 
@@ -273,13 +277,15 @@ def main():
         card(s, x, Inches(1.6), Inches(3.85), Inches(3.45), fill=DARKCARD, line=None)
         text(s, x + Inches(0.2), Inches(1.72), Inches(3.5), Inches(0.4), t, size=18, color=WHITE, bold=True)
         bullets(s, x + Inches(0.2), Inches(2.2), Inches(3.5), Inches(2.8), items, size=15, color=WHITE)
-    card(s, Inches(0.6), Inches(5.4), Inches(12.15), Inches(0.95), fill=WHITE, line=None)
-    text(s, Inches(0.85), Inches(5.5), Inches(11.7), Inches(0.8), [
-        [("Deliverables: ", {"bold": True}), ("code, configs, 10 passing tests, data and model cards, Word/PDF/LaTeX report, this deck, poster", {})],
-        [("GitHub: ", {"bold": True}), (REPO_URL, {"color": BLUE})]], size=14)
+    card(s, Inches(0.6), Inches(5.3), Inches(12.15), Inches(1.3), fill=WHITE, line=None)
+    text(s, Inches(0.85), Inches(5.38), Inches(11.7), Inches(1.15), [
+        [("Deliverables: ", {"bold": True}), ("code, configs, 10 passing tests, data and model cards, Word/PDF report, this deck, poster", {})],
+        [("GitHub: ", {"bold": True}), (REPO_URL, {"color": BLUE, "link": REPO_URL})],
+        [("Interactive demo: ", {"bold": True}), (DEMO_URL, {"color": BLUE, "link": DEMO_URL})]], size=14)
     s.notes_slide.notes_text_frame.text = (
         "Module 2 shows that parameter-based surrogates are fast and accurate for resonance and bandwidth, weaker for matching "
         "depth, and unreliable outside their training range. The optimised designs are hypotheses for full-wave verification. "
+        f"The models can be tried live in the browser demo at {DEMO_URL}. "
         "References: Breiman (2001) random forests; Deb et al. (2002) NSGA-II; Blank and Deb (2020) pymoo; 3GPP TS 38.101-1.")
 
     out = ROOT / "presentations"

@@ -7,6 +7,8 @@ antennas in 5G and emerging 6G networks - a reproducible proof-of-concept protot
 > datasets: random-forest surrogates, template-based engineering summaries, fusion with Module 1's ViT embeddings and an NSGA-II search
 > for 5G NR n78. **Ansys HFSS was not available and was not run; the optimised designs are surrogate predictions and have not been simulated.**
 >
+> **Interactive demo:** https://rathiabeth-sudo.github.io/902---Module-2/demo/ (runs in the browser on the same datasets and trained surrogates)
+>
 > Module 1 (image-based Vision Transformer) is a separate repository:
 > `https://github.com/rathiabeth-sudo/901---module-1`.
 
@@ -42,6 +44,16 @@ every generated number and sentence traceable to a model output or a simulated r
 
 Target definitions, the plausibility rule and the QC record are in [docs/DATA_CARD.md](docs/DATA_CARD.md).
 
+## Interactive demo
+
+**https://rathiabeth-sudo.github.io/902---Module-2/demo/**
+
+A static web page (GitHub Pages, source in [docs/demo](docs/demo)) with five tabs: **Design explorer** (sliders for length, W/L and
+feed position give the predicted resonance, S11, bandwidth, matching class, an n78/n77/n79 band check, a generated engineering summary
+and the simulated S11 curve of the nearest real design), **Test-set browser** (surrogate vs openEMS on the 262 locked test designs),
+**NSGA-II n78 proposals**, **Dual-slot patch** (Mendeley S11 and gain vs frequency) and **Model performance**. The trained random
+forests are evaluated ahead of time on a grid of 84,525 designs; rebuild the data with `python scripts/make_demo.py`.
+
 ## Installation and reproduction
 
 ```bash
@@ -57,7 +69,8 @@ python -m src.numerical_model        # surrogates + engineering summaries
 python -m src.fusion_optimization    # fusion + NSGA-II
 python -m src.timing                 # measured prediction speed (used in the extended deck)
 pytest -q                            # 10 tests
-python scripts/make_deliverables.py  # block diagram, poster, slides, Word + LaTeX report
+python scripts/make_deliverables.py  # block diagram, poster, slides, Word report (+ extended report)
+python scripts/make_demo.py          # data for the web demo in docs/demo
 ```
 
 Or run everything with `bash scripts/run_all.sh` (Windows: `powershell -File scripts\run_all.ps1`). See [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md).
@@ -94,9 +107,11 @@ Test status: `pytest` reports 10 passed (`results/test_report.txt`).
 
 | File | Content |
 |---|---|
-| [reports/module2_report.docx](reports/module2_report.docx) (+ `.pdf`, `.tex`) | Formal methodology and implementation report |
+| [reports/module2_report.docx](reports/module2_report.docx) (+ `.pdf`) | Project report, submission version: about 2,000 words, Times New Roman 12 pt, double-spaced, with the demo link |
+| [reports/module2_extended_report.docx](reports/module2_extended_report.docx) (+ `.pdf`, `.tex`) | Extended methodology and implementation report with full tables and appendices |
+| [Interactive demo](https://rathiabeth-sudo.github.io/902---Module-2/demo/) ([source](docs/demo)) | Browser demo of the surrogates, NSGA-II proposals and datasets |
 | [presentations/module2_presentation.pptx](presentations/module2_presentation.pptx) | Five-slide deck with presenter notes |
-| [presentations/module2_extended_presentation.pptx](presentations/module2_extended_presentation.pptx) | 21-slide extended deck: antenna basics, AI pipeline stages, features, all outputs; note bubbles + speaker notes |
+| [presentations/module2_extended_presentation.pptx](presentations/module2_extended_presentation.pptx) | 22-slide extended deck: antenna basics, AI pipeline stages, features, all outputs, live demo; note bubbles + speaker notes |
 | [poster/module2_poster.png](poster/module2_poster.png) (+ `.pdf`) | 16:9 research poster, 300 dpi |
 | [results/figures/module2_architecture.png](results/figures/module2_architecture.png) | Module 2 block diagram |
 | [docs/](docs/) | Data card, model card, reproducibility, limitations, dataset survey, hypotheses |

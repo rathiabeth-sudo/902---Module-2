@@ -29,6 +29,7 @@ SUBTITLE = "Module 2 of the Applied Vision Transformer Framework for Hybrid-Slot
 # Set these once after creating the GitHub repositories; every deliverable reads them from here.
 REPO_URL = "https://github.com/rathiabeth-sudo/902---Module-2"
 COMPANION_URL = "https://github.com/rathiabeth-sudo/901---module-1"
+DEMO_URL = "https://rathiabeth-sudo.github.io/902---Module-2/demo/"   # GitHub Pages, built from docs/demo
 
 PATCH_TARGETS = {"f_res_ghz": ("First matched resonance", "GHz"), "s11_min_db": ("Minimum S11", "dB"),
                  "s11_at_res_db": ("S11 at resonance", "dB"), "bw10_mhz": ("−10 dB bandwidth", "MHz")}

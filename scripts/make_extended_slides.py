@@ -14,9 +14,9 @@ from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Emu, Inches, Pt
 
-from deliverables_common import (COMPANION_URL, FIG, M, MEND_TARGETS, PATCH_TARGETS, REPO_URL, ROOT, TITLE, criteria, load,
+from deliverables_common import (COMPANION_URL, DEMO_URL, FIG, M, MEND_TARGETS, PATCH_TARGETS, REPO_URL, ROOT, TITLE, criteria, load,
                                  test_summary)
-from make_report import summaries
+from make_extended_report import summaries
 from make_slides import ACCENT, BLUE, EDGE, GREY, ICE, NAVY, SOFT, WHITE, background, bullets, card, text
 
 FONT = "Calibri"
@@ -27,7 +27,7 @@ GREEN = RGBColor(0x1F, 0x6F, 0x2A)
 KICK = "MODULE 2 · NUMERICAL-TEXT SURROGATE, FUSION & OPTIMISATION · EXTENDED"
 AUTHOR = "Ms. Rathi Devadhas · Student ID 1737089 · Master of Applied Artificial Intelligence"
 CONTENT_W = Inches(8.55)   # left content column; the note bubble sits to its right
-TOTAL = 21
+TOTAL = 22
 
 
 class Deck:
@@ -172,7 +172,8 @@ def main():
         text(s, x + I(0.2), I(3.88), I(2.6), I(0.6), lab, size=14, color=SOFT)
     text(s, I(0.6), I(4.9), I(11.8), I(1.2), [[("Ms. Rathi Devadhas", {"bold": True, "size": 20, "color": WHITE})],
                                               [("Student ID 1737089  ·  Master of Applied Artificial Intelligence  ·  28 October 2026", {"size": 15, "color": SOFT})],
-                                              [(REPO_URL, {"size": 13, "color": SOFT})]], size=15)
+                                              [(REPO_URL, {"size": 13, "color": SOFT})],   # plain text: theme link colour is unreadable on navy
+                                              [("Live demo: " + DEMO_URL, {"size": 13, "color": SOFT})]], size=15)
     s.notes_slide.notes_text_frame.text = (
         "This extended deck explains Module 2 from first principles: what antennas and slot / DGS antennas are, why AI helps, "
         "which inputs the models use, the stage-by-stage pipeline, every executed output, and what it means for engineers. "
@@ -184,7 +185,7 @@ def main():
              ("2", "Why AI for antenna design", "conventional loop vs AI-assisted screening"),
              ("3", "Pipeline stages", "acquisition → cleaning → vectorisation → training → text"),
              ("4", "Inputs and features", "what the AI sees, and why each parameter matters"),
-             ("5", "Outputs", "surrogate accuracy, text summaries, fusion, NSGA-II designs"),
+             ("5", "Outputs", "surrogate accuracy, text, fusion, NSGA-II designs, live demo"),
              ("6", "Value for engineers", "benefits, limits and the path to HFSS validation")]
     for i, (k, t, d) in enumerate(items):
         col, rowi = i % 2, i // 2
@@ -454,7 +455,18 @@ def main():
              "interpolations, not miracles.",
              "These are predictions only: NOT simulated. They are a shortlist for HFSS."])
 
-    # ================================================================ 18 value for engineers
+    # ================================================================ 18 interactive demo
+    s = D.slide("Try it: the interactive Module 2 demo", section="5 · Outputs")
+    pic(s, FIG / "demo_screenshot.png", I(0.6), I(1.45), h=I(4.55))
+    text(s, I(0.6), I(6.15), I(8.6), I(0.5), [[("Open the demo: ", {"bold": True, "color": NAVY}),
+                                              (DEMO_URL, {"color": BLUE, "link": DEMO_URL})]], size=15)
+    note(s, ["Same datasets and trained random forests as the report, running in any browser.",
+             "Move the sliders for L, W/L and feed position: the predicted resonance, S11, bandwidth, matching class, "
+             "n78 check and an engineering summary update at once.",
+             "Other tabs: test-set browser, the 100 NSGA-II proposals, Mendeley S11 / gain curves, model scores.",
+             "Screening only: every output is labelled as needing full-wave verification."])
+
+    # ================================================================ 19 value for engineers
     s = D.slide("What this means for engineers", section="6 · Value")
     grid(s, I(0.6), I(1.5), CONTENT_W, [
         ["Aspect", "Conventional (full-wave only)", "With the AI surrogate (Module 2)"],
@@ -470,7 +482,7 @@ def main():
              "The out-of-distribution test shows engineers exactly when not to trust the surrogate.",
              "Text summaries make results readable for non-specialists and reports."])
 
-    # ================================================================ 19 outcomes and limitations
+    # ================================================================ 20 outcomes and limitations
     s = D.slide("Outcomes and limitations", section="6 · Value")
     rows = [["ID", "Statement", "Outcome"]]
     for cid, stmt, verdict in CR:
@@ -486,7 +498,7 @@ def main():
              "Three criteria met, one hypothesis not supported - reported as found, not adjusted.",
              "The limitations define the next step: a proper HFSS hybrid-slotted DGS dataset."])
 
-    # ================================================================ 20 conclusion (dark)
+    # ================================================================ 21 conclusion (dark)
     s = D.slide("Conclusion and next steps", dark=True)
     cols = [("What was achieved", ["Working 7-stage numerical-text pipeline", "Accurate resonance and bandwidth surrogates",
                                    "Readable, traceable engineering summaries", f"{opt['n_pareto']} n78 design proposals"]),
@@ -499,16 +511,17 @@ def main():
         card(s, x, I(1.55), I(3.85), I(3.4), fill=DARKCARD, line=None)
         text(s, x + I(0.2), I(1.67), I(3.5), I(0.4), t, size=18, color=WHITE, bold=True)
         bullets(s, x + I(0.2), I(2.15), I(3.5), I(2.75), its, size=15, color=WHITE)
-    card(s, I(0.6), I(5.25), I(12.15), I(1.2), fill=WHITE, line=None)
-    text(s, I(0.85), I(5.33), I(11.7), I(1.1), [
-        [("Module 2 code, data, tests and outputs: ", {"bold": True}), (REPO_URL, {"color": BLUE})],
-        [("Module 1 (Vision Transformer): ", {"bold": True}), (COMPANION_URL, {"color": BLUE})],
+    card(s, I(0.6), I(5.1), I(12.15), I(1.5), fill=WHITE, line=None)
+    text(s, I(0.85), I(5.16), I(11.7), I(1.4), [
+        [("Module 2 code, data, tests and outputs: ", {"bold": True}), (REPO_URL, {"color": BLUE, "link": REPO_URL})],
+        [("Interactive demo: ", {"bold": True}), (DEMO_URL, {"color": BLUE, "link": DEMO_URL})],
+        [("Module 1 (Vision Transformer): ", {"bold": True}), (COMPANION_URL, {"color": BLUE, "link": COMPANION_URL})],
         [("Tests: ", {"bold": True}), (test_summary(), {})]], size=14)
     s.notes_slide.notes_text_frame.text = (
         "Module 2 shows that parameter-based AI surrogates can screen antenna designs in milliseconds, explain themselves in "
         "plain text, and propose candidates for a 5G band - with clear limits. The next step is the HFSS hybrid-slotted DGS dataset.")
 
-    # ================================================================ 21 references
+    # ================================================================ 22 references
     s = D.slide("References", section="Sources")
     refs = ["LaBash et al. (2025) Rectangular patch antenna frequency-response dataset, arXiv:2505.18188 (MIT)",
             "Mihad, Islam & Sojib (2024) Antenna Parameters Dataset v2, Mendeley Data, doi:10.17632/3gxr2vvd9n.2 (CC BY 4.0)",
